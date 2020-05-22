@@ -4,8 +4,6 @@ let
   inherit (map) builtins;
 
   cfg = config.features.wireguard;
-  credentials = pkgs.callPackage ../credentials.nix { };
-  wg = credentials.wireguard;
 
   dhcpcdConf = pkgs.writeText "dhcpcd.conf" ''
     hostname
@@ -35,6 +33,31 @@ in
       example = [ "eth0" ];
       default = [ ];
     };
+
+    credentials = mkOption {
+      type = types.submodule {
+        options = {
+          address = mkOption {
+            type = types.str;
+            description = "The ip address assigned to your client";
+          };
+          endpoint = mkOption {
+            type = types.str;
+            description = "The ip of the server";
+          };
+          publickey = mkOption {
+            type = types.str;
+            description = "The public key of the server";
+          };
+          privatekey = mkOption {
+            type = types.str;
+            description = "A string containg the path to a private key";
+            example = "/root/wg/privatekey";
+          };
+        };
+      };
+    };
+
   };
 
   config = mkIf cfg.enable {
@@ -42,15 +65,15 @@ in
       enable = true;
 
       interfaces."wg0" = {
-        ips = [ credentials.wireguard.address ];
-        privateKeyFile = "/root/wg/private";
+        ips = [ cfg.credentials.address ];
+        privateKeyFile = cfg.credentials.privatekey;
         interfaceNamespace = "init";
         socketNamespace = "physical";
 
         peers = [{
           allowedIPs = [ "0.0.0.0/0" ];
-          endpoint = credentials.wireguard.endpoint;
-          publicKey = credentials.wireguard.publickey;
+          endpoint = cfg.credentials.endpoint;
+          publicKey = cfg.credentials.publickey;
         }];
       };
     };
