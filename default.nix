@@ -1,0 +1,5 @@
+{ ... }:
+
+{
+  imports = [ ./features/wireguard.nix ];
+}
