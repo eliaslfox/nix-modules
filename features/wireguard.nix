@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 let
   inherit (lib) mkEnableOption mkIf mkOption types;
-  inherit (map) builtins;
+  inherit (builtins) map;
 
   cfg = config.features.wireguard;
 
