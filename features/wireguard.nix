@@ -37,8 +37,8 @@ in
     credentials = mkOption {
       type = types.submodule {
         options = {
-          address = mkOption {
-            type = types.str;
+          addresses = mkOption {
+            type = types.listOf types.str;
             description = "The ip address assigned to your client";
           };
           endpoint = mkOption {
@@ -65,13 +65,13 @@ in
       enable = true;
 
       interfaces."wg0" = {
-        ips = [ cfg.credentials.address ];
+        ips = cfg.credentials.addresses;
         privateKeyFile = cfg.credentials.privatekey;
         interfaceNamespace = "init";
         socketNamespace = "physical";
 
         peers = [{
-          allowedIPs = [ "0.0.0.0/0" ];
+          allowedIPs = [ "0.0.0.0/0" "::0/0" ];
           endpoint = cfg.credentials.endpoint;
           publicKey = cfg.credentials.publickey;
         }];

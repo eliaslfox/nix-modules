@@ -115,7 +115,7 @@ in
           };
         };
       };
-      default = {};
+      default = { };
     };
 
     localDoh = mkOption {
@@ -124,12 +124,12 @@ in
           enable = mkEnableOption "enable local doh server";
           listenAddress = mkOption {
             type = types.listOf types.str;
-            default = [ "127.0.0.1:3000" ];
+            default = [ "127.0.0.1:3000" "[::1]:3000" ];
             description = "IP and port combinations to listen on";
           };
         };
       };
-      default = {};
+      default = { };
     };
   };
 
