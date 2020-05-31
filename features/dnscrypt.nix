@@ -91,7 +91,7 @@ in
         options = {
           enable = mkOption {
             type = types.bool;
-            default = false;
+            default = true;
           };
           size = mkOption {
             type = types.int;
