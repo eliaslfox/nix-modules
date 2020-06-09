@@ -123,12 +123,6 @@ in
         serviceConfig = { NetworkNamespacePath = "/var/run/netns/physical"; };
       };
 
-      firewall = {
-        after = lib.mkForce [ "physical-netns.service" ];
-        requires = lib.mkForce [ "physical-netns.service" ];
-        serviceConfig = { NetworkNamespacePath = "/var/run/netns/physical"; };
-      };
-
       dhcpcd = {
         after = lib.mkForce [ "physical-netns.service" ];
         requires = lib.mkForce [ "physical-netns.service" ];
