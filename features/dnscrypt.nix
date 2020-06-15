@@ -134,7 +134,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    networking.nameservers = lib.mkForce [ "127.0.0.1" ];
+    networking.nameservers = lib.mkForce [ "::1" "127.0.0.1" ];
 
     services.dnscrypt-proxy2 = {
       enable = true;

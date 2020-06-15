@@ -13,6 +13,7 @@ let
     nooption domain_name_servers, domain_name, domain_search, host_name, ntp_servers
 
     nohook lookup-hostname
+    nohook resolv.conf
 
     waitip
   '';
