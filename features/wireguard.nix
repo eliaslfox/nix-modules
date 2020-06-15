@@ -13,7 +13,6 @@ let
     nooption domain_name_servers, domain_name, domain_search, host_name, ntp_servers
 
     nohook lookup-hostname
-    nohook resolv.conf
 
     waitip
   '';
@@ -119,6 +118,12 @@ in
       wireguard-wg0 = { after = [ "physical-netns.service" ]; };
 
       wpa_supplicant = {
+        after = lib.mkForce [ "physical-netns.service" ];
+        requires = lib.mkForce [ "physical-netns.service" ];
+        serviceConfig = { NetworkNamespacePath = "/var/run/netns/physical"; };
+      };
+
+      "network-addresses-${cfg.wirelessInterface}" = {
         after = lib.mkForce [ "physical-netns.service" ];
         requires = lib.mkForce [ "physical-netns.service" ];
         serviceConfig = { NetworkNamespacePath = "/var/run/netns/physical"; };
