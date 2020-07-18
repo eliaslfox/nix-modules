@@ -14,6 +14,8 @@ let
 
     nohook lookup-hostname
 
+    nohook resolv.conf hostname
+
     waitip
   '';
 
