@@ -25,14 +25,19 @@ in
   config = mkIf cfg.enable {
     home.packages = with pkgs; [ cfg.package ];
     systemd.user.services.yubikey-touch-detector = {
-      Unit = { Description = "Yubikey touch detector daemon"; After = [ "graphical.target" ]; };
+      Unit = {
+        Description = "Yubikey touch detector daemon";
+        After = [ "default.target" ];
+      };
       Service = {
         ExecStart = "${cfg.package}/bin/yubikey-touch-detector";
         Environment = cfg.environment ++ [
           "PATH=${pkgs.gnupg}/bin"
         ];
       };
-      Install = { WantedBy = [ "default.target" ]; };
+      Install = {
+        WantedBy = [ "default.target" ];
+      };
     };
     systemd.user.sockets.yubikey-touch-detector = {
       Unit = { Description = "Socket for yubikey touch detector daemon"; };
@@ -40,7 +45,9 @@ in
         ListenStream = "%t/yubikey-touch-detector.socket";
         RemoveOnStop = "yes";
       };
-      Install = { WantedBy = [ "sockets.target" ]; };
+      Install = {
+        WantedBy = [ "sockets.target" ];
+      };
     };
   };
 }
