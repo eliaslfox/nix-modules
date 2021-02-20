@@ -140,6 +140,10 @@ in
       enable = true;
       configFile = configFile;
     };
+    
+    systemd.services.dnscrypt-proxy2.serviceConfig = { 
+      SystemCallFilter = [ "fsync" ];
+    };
 
     environment.etc."dnscrypt.pem".source = ../dnscrypt.pem;
   };
