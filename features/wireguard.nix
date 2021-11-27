@@ -119,7 +119,7 @@ in
 
       wireguard-wg0 = { after = [ "physical-netns.service" ]; };
 
-      wpa_supplicant = {
+      "wpa_supplicant-${cfg.wirelessInterface}" = {
         after = lib.mkForce [ "physical-netns.service" ];
         requires = lib.mkForce [ "physical-netns.service" ];
         serviceConfig = { NetworkNamespacePath = "/var/run/netns/physical"; };
