@@ -1,11 +1,17 @@
 { config, lib, pkgs, ... }:
 let
-  inherit (lib) mkEnableOption mkIf mkOption;
+  inherit (lib) mkEnableOption mkIf mkOption types;
   cfg = config.features.dnscrypt;
 in
 {
   options.features.dnscrypt = {
     enable = mkEnableOption "enable dnscrypt proxy";
+
+    privateKey = mkOption {
+      type = types.str;
+      description = "A string containg the path to a private key";
+      example = "/etc/nixos-secrets/dnscrypt.pem";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -23,6 +29,6 @@ in
       };
     };
 
-    environment.etc."dnscrypt.pem".source = ../dnscrypt.pem;
+    environment.etc."dnscrypt.pem".source = cfg.privateKey;
   };
 }

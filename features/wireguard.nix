@@ -138,7 +138,7 @@ in
           NetworkNamespacePath = "/var/run/netns/physical";
           ExecStart = lib.mkForce
             "@${pkgs.dhcpcd}/sbin/dhcpcd dhcpcd --quiet --config ${dhcpcdConf} ${cfg.wirelessInterface}";
-          PIDFile = lib.mkForce "/run/dhcpcd-${cfg.wirelessInterface}.pid";
+          PIDFile = lib.mkForce "/run/dhcpcd/${cfg.wirelessInterface}.pid";
         };
       };
     };
